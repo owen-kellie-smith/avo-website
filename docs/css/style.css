@@ -186,3 +186,13 @@ body{
     width:42px;
   }
 }
+html,body{
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+}
+@media (max-width:480px){
+  .download-card{
+    flex-direction:column;
+  }
+}
