@@ -28,3 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadImports();
   markActiveMenu();
 });
+
+document.querySelector(".menu-toggle").onclick = function(){
+  document.querySelector(".site-menu").classList.toggle("open");
+};
