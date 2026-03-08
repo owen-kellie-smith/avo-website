@@ -11,7 +11,7 @@
 2. Make your changes
 3. Submit a pull request
 
-If you are proposing a new page then copy an existing page and add your new page to includes/menu.html.
+If you are proposing a new page then copy an existing page e.g. docs/index.html and add your new page to docs/includes/menu.html.
 
 ---
 
