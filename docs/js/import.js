@@ -29,6 +29,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   markActiveMenu();
 });
 
-document.querySelector(".menu-toggle").onclick = function(){
-  document.querySelector(".site-menu").classList.toggle("open");
-};
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadImports();
+  markActiveMenu();
+
+  const toggle = document.querySelector(".menu-toggle");
+  const menu = document.querySelector(".site-menu");
+
+  if (toggle && menu) {
+    toggle.addEventListener("click", () => {
+      menu.classList.toggle("open");
+    });
+  }
+});
