@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -17,6 +16,10 @@
 
 <section class="feed-wrap" aria-label="Facebook feed">
   <div id="fb-fallback" class="social-fallback">
+    <img
+      class="social-fallback-image"
+      alt="Axe Vale Orchestra updates are available on Facebook"
+      src="img/teaser.jpg"/>
     <h2>Latest updates</h2>
     <p>
       Our latest news, rehearsal updates, and concert announcements are posted on Facebook.
@@ -30,84 +33,125 @@
   </div>
 
   <div id="fb-wrapper" hidden aria-hidden="true">
-    <div id="fb-feed">
-      <div class="fb-page"
-           data-href="https://www.facebook.com/AxeValeOrchestra/"
-           data-tabs="timeline"
-           data-width="500"
-           data-height="900"
-           data-small-header="false"
-           data-adapt-container-width="true"
-           data-hide-cover="false"
-           data-show-facepile="true">
-        <blockquote cite="https://www.facebook.com/AxeValeOrchestra/" class="fb-xfbml-parse-ignore">
-          <a href="https://www.facebook.com/AxeValeOrchestra/">Axe Vale Orchestra</a>
-        </blockquote>
-      </div>
-    </div>
+    <h2>Recent posts</h2>
+    <div id="fb-feed"></div>
   </div>
 </section>
 
 <script>
   (function () {
+    const pageUrl = 'https://www.facebook.com/AxeValeOrchestra/';
     const fallback = document.getElementById('fb-fallback');
     const wrapper = document.getElementById('fb-wrapper');
     const feed = document.getElementById('fb-feed');
 
+    let resolved = false;
+    let pollTimer = null;
+    let fallbackTimer = null;
+
+    function clearTimers() {
+      if (pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+      if (fallbackTimer) {
+        clearTimeout(fallbackTimer);
+        fallbackTimer = null;
+      }
+    }
+
     function showFallback() {
+      if (resolved) {
+        return;
+      }
+      resolved = true;
+      clearTimers();
+      feed.innerHTML = '';
       wrapper.hidden = true;
       wrapper.setAttribute('aria-hidden', 'true');
       fallback.hidden = false;
     }
 
     function showFeed() {
+      if (resolved) {
+        return;
+      }
+      resolved = true;
+      clearTimers();
       fallback.hidden = true;
       wrapper.hidden = false;
       wrapper.setAttribute('aria-hidden', 'false');
     }
 
-    function hasRenderedFacebookWidget() {
+    function hasRenderedWidget() {
       return !!feed.querySelector('iframe');
     }
 
-    function checkForRenderedWidget() {
-      if (hasRenderedFacebookWidget()) {
-        showFeed();
-        return true;
-      }
-      return false;
+    function injectFacebookMarkup() {
+      feed.innerHTML = `
+        <div class="fb-page"
+             data-href="${pageUrl}"
+             data-tabs="timeline"
+             data-width="500"
+             data-height="900"
+             data-small-header="false"
+             data-adapt-container-width="true"
+             data-hide-cover="false"
+             data-show-facepile="false">
+          <blockquote cite="${pageUrl}" class="fb-xfbml-parse-ignore">
+            <a href="${pageUrl}">Axe Vale Orchestra</a>
+          </blockquote>
+        </div>
+      `;
     }
 
-    showFallback();
+    function startPollingForWidget() {
+      let tries = 0;
+      pollTimer = setInterval(() => {
+        tries += 1;
 
-    window.fbAsyncInit = function () {
+        if (hasRenderedWidget()) {
+          showFeed();
+        } else if (tries >= 20) {
+          showFallback();
+        }
+      }, 300);
+    }
+
+    function handleFacebookReady() {
       if (!window.FB || !window.FB.XFBML) {
         showFallback();
         return;
       }
 
+      injectFacebookMarkup();
       window.FB.XFBML.parse(feed);
+      startPollingForWidget();
+    }
 
-      let tries = 0;
-      const maxTries = 20;
-      const interval = setInterval(() => {
-        tries += 1;
+    function loadFacebookSDK() {
+      if (document.getElementById('facebook-jssdk')) {
+        return;
+      }
 
-        if (checkForRenderedWidget() || tries >= maxTries) {
-          clearInterval(interval);
-          if (!hasRenderedFacebookWidget()) {
-            showFallback();
-          }
-        }
-      }, 300);
-    };
+      const sdk = document.createElement('script');
+      sdk.id = 'facebook-jssdk';
+      sdk.async = true;
+      sdk.defer = true;
+      sdk.crossOrigin = 'anonymous';
+      sdk.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v23.0';
+      sdk.onerror = showFallback;
+      document.body.appendChild(sdk);
+    }
 
-    setTimeout(showFallback, 7000);
+    showFallback();
+    resolved = false;
+
+    window.fbAsyncInit = handleFacebookReady;
+    loadFacebookSDK();
+    fallbackTimer = setTimeout(showFallback, 4500);
   })();
 </script>
-
-<script async defer crossorigin="anonymous"
-  src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v23.0"></script>
 
 </main>
 <div data-import="includes/footer.html"></div>
