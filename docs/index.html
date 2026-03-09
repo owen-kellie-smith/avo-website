@@ -21,7 +21,6 @@
     <p>
       Our latest news, rehearsal updates, and concert announcements are posted on Facebook.
     </p>
-    <img src="img/teaser.jpg" alt="Axe Vale Orchestra performing" class="social-fallback-image">
     <a class="social-button"
        href="https://www.facebook.com/AxeValeOrchestra/"
        target="_blank"
@@ -48,20 +47,17 @@
 </section>
 
 <script>
-  let fbLoaded = false;
-
   window.fbAsyncInit = function () {
-    fbLoaded = true;
-    document.getElementById('fb-fallback').hidden = true;
-    document.getElementById('fb-feed').hidden = false;
-  };
+    const fallback = document.getElementById('fb-fallback');
+    const feed = document.getElementById('fb-feed');
 
-  setTimeout(() => {
-    if (!fbLoaded) {
-      document.getElementById('fb-fallback').hidden = false;
-      document.getElementById('fb-feed').hidden = true;
+    if (fallback) fallback.hidden = true;
+    if (feed) feed.hidden = false;
+
+    if (window.FB && window.FB.XFBML) {
+      window.FB.XFBML.parse(feed);
     }
-  }, 3000);
+  };
 </script>
 
 <script async defer crossorigin="anonymous"
