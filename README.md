@@ -32,7 +32,7 @@ If everything works you will see something like
 ```
 ✓ homepage loads
 ✓ pages load
-✓ internal links valid
+✓ internal links are not broken
 Lighthouse scores:
 Performance      90+
 Accessibility    100
