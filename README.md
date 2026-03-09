@@ -7,7 +7,7 @@
 
 ## How to contribute
 
-The website is in the [docs](docs)folder.
+The website is in the [docs](docs) folder.
 
 Either create a new [issue](https://github.com/owen-kellie-smith/avo-website/issues) and describe what you would like to see or create what you would like to see and seek approval for it i.e.
 1. Fork the repository
