@@ -1,4 +1,5 @@
 # avo-website
+![site checks](https://github.com/owen-kellie-smith/avo-website/actions/workflows/site-checks.yml/badge.svg)
 
 **Live site:** https://owen-kellie-smith.github.io/avo-website/
 
@@ -33,11 +34,13 @@ If everything works you will see something like
 ✓ homepage loads
 ✓ pages load
 ✓ internal links are not broken
-Lighthouse scores:
-Performance      90+
-Accessibility    100
-SEO              100
 ```
+
+To view the site locally:
+```
+    npm start
+```
+then open `http://localhost:4173`
 
 ---
 ## Domain name management (info)

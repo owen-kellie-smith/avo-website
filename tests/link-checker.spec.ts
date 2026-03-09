@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-test('internal html links are not broken', async ({ page }) => {
+
+test('internal links and assets are valid', async ({ page }) => {
   const visited = new Set<string>();
   const queue = ['/'];
 
   while (queue.length) {
-    const path = queue.shift()!;
+    const path = queue.pop()!;
     if (visited.has(path)) continue;
     visited.add(path);
 
@@ -13,17 +14,33 @@ test('internal html links are not broken', async ({ page }) => {
     expect(response).not.toBeNull();
     expect(response!.status()).toBeLessThan(400);
 
-    const hrefs = await page.locator('a[href]').evaluateAll(links =>
-      links.map(a => a.getAttribute('href')).filter(Boolean)
+    // collect links
+    const links = await page.$$eval('a[href]', as =>
+      as.map(a => a.getAttribute('href'))
     );
 
-    for (const href of hrefs as string[]) {
+    // collect images
+    const images = await page.$$eval('img[src]', imgs =>
+      imgs.map(i => i.getAttribute('src'))
+    );
+
+    const urls = [...links, ...images];
+
+    for (const href of urls) {
+      if (!href) continue;
+
       if (
         href.startsWith('/') ||
-        href.endsWith('.html')
+        href.endsWith('.html') ||
+        href.endsWith('.pdf') ||
+        href.endsWith('.jpg') ||
+        href.endsWith('.png') ||
+        href.endsWith('.svg')
       ) {
-        if (!href.startsWith('http') && !href.startsWith('#') && !visited.has(href)) {
-          queue.push(href.startsWith('/') ? href : `/${href}`);
+        const next = href.startsWith('/') ? href : '/' + href;
+
+        if (!visited.has(next)) {
+          queue.push(next);
         }
       }
     }

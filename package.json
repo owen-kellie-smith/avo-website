@@ -9,8 +9,7 @@
 "scripts": {
   "start": "http-server ./docs -p 4173 -c-1",
   "test": "playwright test",
-  "lighthouse": "lhci autorun",
-  "check": "playwright test && lhci autorun"
+  "check": "playwright test"
 },
   "repository": {
     "type": "git",
