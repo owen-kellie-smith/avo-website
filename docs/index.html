@@ -9,7 +9,10 @@
 <body>
 <div class="page">
 <div data-import="includes/header.html"></div>
-<main class="content">
+<main class="content" id="main-content"></main>
+<div data-import="includes/footer.html"></div>
+</div>
+<template id="page-latest">
 
 <h1>Latest</h1>
 <hr/>
@@ -205,8 +208,13 @@
 
     showFallback();
     resolved = false;
-    window.fbAsyncInit = handleFacebookReady;
-    loadFacebookSDK();
+    window.__pageCleanup = function () { clearTimers(); };
+    if (window.FB && window.FB.XFBML) {
+      handleFacebookReady();
+    } else {
+      window.fbAsyncInit = handleFacebookReady;
+      loadFacebookSDK();
+    }
     fallbackTimer = setTimeout(function () {
       if (!resolved) {
         showFallback();
@@ -215,9 +223,7 @@
   })();
 </script>
 
-</main>
-<div data-import="includes/footer.html"></div>
-</div>
+</template>
 <script src="js/import.js"></script>
 </body>
 </html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<script>
+  (function () {
+    var validPages = ['latest', 'about', 'conductor', 'leader', 'charter', 'contact'];
+    var segment = location.pathname.split('/').filter(Boolean).pop() || '';
+    segment = segment.replace(/\.html$/, '').toLowerCase();
+    var hash = validPages.includes(segment) ? '#' + segment : '';
+    location.replace(location.origin + '/' + hash);
+  }());
+</script>
+</head>
+</html>
