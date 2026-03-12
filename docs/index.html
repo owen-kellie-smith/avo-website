@@ -113,6 +113,7 @@
     }
 
     function showFallback() {
+      if (!wrapper.hidden) return;
       clearTimers();
       resolved = true;
       feed.innerHTML = '';
@@ -202,7 +203,7 @@
       sdk.crossOrigin = 'anonymous';
       sdk.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v23.0';
       sdk.onerror = function () {
-        showFallback();
+        if (!resolved) { showFallback(); }
       };
       document.body.appendChild(sdk);
     }
