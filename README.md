@@ -1,7 +1,7 @@
 # avo-website
 ![site checks](https://github.com/owen-kellie-smith/avo-website/actions/workflows/site-checks.yml/badge.svg)
 
-**Live site:** https://owen-kellie-smith.github.io/avo-website/
+**Live site:** https://www.axe-vale-orchestra.co.uk/   [How?](#domain-name-management-info)
 
 ---
 
