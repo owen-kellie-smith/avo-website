@@ -76,7 +76,7 @@ then open `http://localhost:4173`
 
 ---
 ## Domain name management (info)
-As a demo, [axe-vale-orchestra.co.uk is registered (at fasthosts), for a year until March 2027. Fasthosts DNS settings forward to Cloudflare.](https://www.whois.com/whois/axe-vale-orchestra.co.uk) Cloudflare [has a CNAME for www(.axe-vale-orchestra.co.uk) which is owen-kellie-smith.github.io](https://mxtoolbox.com/SuperTool.aspx?action=mx%3awww.axe-vale-orchestra.co.uk&run=toolpage).  Github fowards to avo-website/docs via this repo > Settings > Pages (Custom Domain) which created [a CNAME in docs](docs/CNAME).
+As a demo, [axe-vale-orchestra.co.uk is registered (at fasthosts), for a year until March 2027. Fasthosts DNS settings forward to Cloudflare.](https://www.whois.com/whois/axe-vale-orchestra.co.uk) Cloudflare has a CNAME for www(.axe-vale-orchestra.co.uk) which is owen-kellie-smith.github.io.  Github fowards to avo-website/docs via this repo > Settings > Pages (Custom Domain) which created [a CNAME in docs](docs/CNAME).
 
 ---
 ## License
